@@ -1,5 +1,8 @@
 import sharp from "sharp";
-import { CONFIG } from "./config";
+// Configuration
+const CONFIG = {
+  REQUIRED_WHITE_PERCENTAGE: 0.3
+};
 
 export async function isWhiteBackground(
   imagePath: string

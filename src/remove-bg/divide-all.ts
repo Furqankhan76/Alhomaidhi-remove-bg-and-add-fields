@@ -1,6 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "./config";
+// Configuration
+const CONFIG = {
+  WHITE_BG_DIR: "images/output/Divided images/White background",
+  OTHERS_DIR: "images/output/Divided images/Others",
+  ALL_IMAGES_DIR: "images/output/All images",
+  DEBUG: true
+};
 import { isWhiteBackground } from "./is-white-bg";
 
 fs.mkdirSync(CONFIG.WHITE_BG_DIR, { recursive: true });

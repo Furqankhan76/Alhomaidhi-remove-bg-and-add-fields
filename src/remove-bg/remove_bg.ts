@@ -3,7 +3,21 @@ import path from "path";
 import axios from "axios";
 import FormData from "form-data";
 import * as XLSX from "xlsx";
-import { CONFIG } from "./config";
+import * as dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
+// Configuration
+const CONFIG = {
+  DEZGO_API_KEY: process.env.DEZGO_API_KEY,
+  DEZGO_API_URL: "https://api.dezgo.com/remove-background",
+  REMOVE_BG_INPUT_DIR: "images/output/Manually verified/White background",
+  REMOVE_BG_OUTPUT_DIR: "images/output/bg-removed images",
+  PROGRESS_STATE_FILE: "images/output/bg_removal_progress.json",
+  PROGRESS_EXCEL_FILE: "images/output/bg_removal_progress.xlsx",
+  OTHERS_OUTPUT_DIR: "images/output/bg-removed images/Others",
+};
 
 interface ProgressState {
   completedFiles: string[];

@@ -1,0 +1,106 @@
+{
+  "gender": [
+    "Mens",
+    "Womens",
+    "Unisex",
+    "Boys",
+    "Girls",
+    "Kids",
+    "Youth"
+  ],
+
+  "watch_type": [
+    "Diving/Dive",
+    "Dress",
+    "Chronograph",
+    "Sports",
+    "Field",
+    "Pilot/Aviator",
+    "GMT",
+    "Analog",
+    "Digital",
+    "Smartwatch",
+    "Mechanical",
+    "Chronometer",
+    "Skeleton",
+    "Tourbillon",
+    "Moonphase",
+    "Perpetual Calendar",
+    "Military"
+  ],
+
+  "case_material": [
+    "Stainless Steel 316L",
+    "Stainless Steel 904L",
+    "Titanium Grade 2",
+    "Titanium Grade 5",
+    "Ceramic (Zirconium Oxide)",
+    "Ceramic (Aluminium Oxide)",
+    "Gold 18K",
+    "Gold 14K",
+    "Platinum",
+    "Aluminum",
+    "PVD-coated",
+    "Carbon Fiber",
+    "Bronze",
+    "Tantalum",
+    "Porcelain",
+    "Wood",
+    "Resin"
+  ],
+
+  "movement_type": [
+    "Quartz",
+    "Mechanical (Manual Wind)",
+    "Automatic (Self-Winding)",
+    "Spring Drive",
+    "Kinetic (Eco-Drive)",
+    "Solar",
+    "Eco-Drive",
+    "Radio-Controlled",
+    "GPS Time",
+    "Tourbillon",
+    "Co-Axial"
+  ],
+
+  "display_type": [
+    "Analog",
+    "Digital LCD",
+    "Digital LED",
+    "Digital OLED",
+    "E-Ink",
+    "Hybrid"
+  ],
+
+  "water_resistance": [
+    "3 ATM (30m)",
+    "5 ATM (50m)",
+    "10 ATM (100m)",
+    "20 ATM (200m)",
+    "30 ATM (300m)",
+    "50 ATM (500m)",
+    "100 ATM (1000m)",
+    "Splash Resistant"
+  ],
+
+  "dial_color": [
+    "Black",
+    "White/Silver",
+    "Blue",
+    "Green",
+    "Grey",
+    "Champagne",
+    "Brown",
+    "Red",
+    "Orange",
+    "Purple",
+    "Mother-of-Pearl",
+    "Gold",
+    "Pink",
+    "Yellow",
+    "Teal",
+    "Navy",
+    "Burgundy",
+    "Skeleton/Transparent"
+  ]
+}

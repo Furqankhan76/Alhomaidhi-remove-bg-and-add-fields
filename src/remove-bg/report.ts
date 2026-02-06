@@ -1,7 +1,12 @@
 import fs from "fs";
 import path from "path";
 import * as XLSX from "xlsx";
-import { CONFIG } from "./config";
+// Configuration
+const CONFIG = {
+  ALL_IMAGES_DIR: "images/output/All images",
+  ALL_REPORT_FILE: "images/output/all_images_report.xlsx",
+  DEBUG: true
+};
 import { isWhiteBackground } from "./is-white-bg";
 
 /**

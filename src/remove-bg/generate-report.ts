@@ -1,7 +1,13 @@
 import fs from "fs";
 import path from "path";
 import * as XLSX from "xlsx";
-import { CONFIG } from "./config";
+// Configuration
+const CONFIG = {
+  INPUT_EXCEL: "english_products_export.xlsx",
+  TEST_LIMIT: 0,
+  OUTPUT_BASE_DIR: "images/output/All images",
+  REPORT_FILE: "images/output/products_report.xlsx",
+};
 
 function countFilesInFolder(folderPath: string): number {
   if (!fs.existsSync(folderPath)) return 0;

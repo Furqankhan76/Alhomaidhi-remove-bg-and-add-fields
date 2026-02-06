@@ -1,7 +1,12 @@
 import * as XLSX from "xlsx";
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "./config";
+// Configuration
+const CONFIG = {
+  INPUT_EXCEL: "english_products_export.xlsx",
+  REMOVE_BG_OUTPUT_DIR: "images/output/bg-removed images",
+  OTHERS_OUTPUT_DIR: "images/output/bg-removed images/Others",
+};
 
 /**
  * Generates a new Excel file by replacing image URLs with local image filenames.

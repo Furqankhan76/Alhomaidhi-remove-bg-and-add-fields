@@ -2,8 +2,15 @@ import fs from "fs";
 import path from "path";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import { CONFIG } from "./config";
 import { execSync } from "child_process";
+
+// Configuration
+const CONFIG = {
+  INPUT_EXCEL: "english_products_export.xlsx",
+  OUTPUT_BASE_DIR: "images/output/All images",
+  TEST_LIMIT: 0,
+  DEBUG: true
+};
 
 async function downloadImage(url: string, folderPath: string): Promise<boolean> {
   try {
