@@ -5,20 +5,23 @@ import * as dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Load environment variables
-dotenv.config();
+dotenv.config({ path: '/Volumes/ssd/projects/remove-bg/.env' });
 
 
 
 // Configuration
 const CONFIG = {
-  EXCEL_FILE: 'english_products_with_brands.xlsx',
-  OUTPUT_FILE: 'english_products_updated.xlsx',
+  EXCEL_FILE: 'english_products_with_brands 2.xlsx',
+  OUTPUT_DIR: path.join(__dirname, 'outputs'),
   FIELDS_JSON: 'fields.json',
   PROGRESS_STATE_FILE: 'add_fields_state.json',
   TEST_LIMIT: 99999, // Highly enough to process all items
   GEMINI_MODEL: 'gemini-2.0-flash',
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
 };
+
+const OUTPUT_FILE_PATH = path.join(CONFIG.OUTPUT_DIR, 'english_products_updated.xlsx');
+const STATE_FILE_PATH = path.join(CONFIG.OUTPUT_DIR, CONFIG.PROGRESS_STATE_FILE);
 
 if (!CONFIG.GEMINI_API_KEY) {
   console.error("❌ GEMINI_API_KEY not found in .env file");
@@ -68,10 +71,9 @@ function formatTime(ms: number): string {
 
 // Load progress state from JSON file
 function loadProgressState(): ProgressState {
-  const stateFile = path.join(process.cwd(), CONFIG.PROGRESS_STATE_FILE);
-  if (fs.existsSync(stateFile)) {
+  if (fs.existsSync(STATE_FILE_PATH)) {
     try {
-      const data = fs.readFileSync(stateFile, "utf-8");
+      const data = fs.readFileSync(STATE_FILE_PATH, "utf-8");
       return JSON.parse(data);
     } catch (error) {
       console.warn("⚠️  Could not load progress state, starting fresh");
@@ -92,10 +94,14 @@ function loadProgressState(): ProgressState {
 
 // Save progress state to JSON file
 function saveProgressState(state: ProgressState): void {
-  const stateFile = path.join(process.cwd(), CONFIG.PROGRESS_STATE_FILE);
   state.lastRunTime = Date.now();
   state.lastRunTimeIST = toIST(state.lastRunTime);
-  fs.writeFileSync(stateFile, JSON.stringify(state, null, 2));
+  
+  if (!fs.existsSync(CONFIG.OUTPUT_DIR)) {
+    fs.mkdirSync(CONFIG.OUTPUT_DIR, { recursive: true });
+  }
+  
+  fs.writeFileSync(STATE_FILE_PATH, JSON.stringify(state, null, 2));
 }
 
 async function run() {
@@ -179,11 +185,12 @@ async function run() {
         }
       }
 
-      const prompt = `
-        You are a luxury watch expert. I am providing you with a watch's SKU, Brand Name, and an image of the watch.
+        const imageSourceText = imagePart ? "and an image of the watch" : "but no image is provided for this one";
+        const prompt = `
+        You are a luxury watch expert. I am providing you with a watch's SKU, Brand Name, ${imageSourceText}.
         Your task is to identify the watch's detailed specifications as accurately as possible. 
         USE THE GOOGLE SEARCH TOOL to find the exact official specifications for this SKU and Brand.
-        Compare the search results with the visual details from the image.
+        ${imagePart ? "Compare the search results with the visual details from the image." : "Rely on the search tool and your knowledge to find the correct specifications."}
 
         SKU: ${sku}
         Brand: ${brand}
@@ -219,6 +226,7 @@ async function run() {
         const cleanJson = jsonMatch[0];
         const aiResponse = JSON.parse(cleanJson);
         const updatedRow = { ...row };
+        updatedRow['featured_image'] = row.featured_image || "";
 
         // console.log(`💡 Reasoning: ${aiResponse.reasoning || 'N/A'}`);
         // updatedRow['ai_reasoning'] = aiResponse.reasoning || '';
@@ -285,8 +293,13 @@ async function run() {
       const newWorksheet = XLSX.utils.json_to_sheet(finalData);
       const newWorkbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, "Updated Products");
-      XLSX.writeFile(newWorkbook, CONFIG.OUTPUT_FILE);
-      console.log(`\n🎉 Done! Updated Excel saved to ${CONFIG.OUTPUT_FILE}`);
+      
+      if (!fs.existsSync(CONFIG.OUTPUT_DIR)) {
+        fs.mkdirSync(CONFIG.OUTPUT_DIR, { recursive: true });
+      }
+      
+      XLSX.writeFile(newWorkbook, OUTPUT_FILE_PATH);
+      console.log(`\n🎉 Done! Updated Excel saved to ${OUTPUT_FILE_PATH}`);
     }
 
   } catch (error) {
